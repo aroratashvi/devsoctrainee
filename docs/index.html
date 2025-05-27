@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Vintage Desktop</title>
+  <title>Windows XP - Portfolio</title>
   <style>
     body {
       margin: 0;
-      background: url('background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: Tahoma, sans-serif;
       overflow: hidden;
+      font-family: Tahoma, sans-serif;
+      background: url('background.png') no-repeat center center fixed;
+      background-size: cover;
     }
 
     .desktop-icon {
       position: absolute;
-      width: 64px;
+      width: 70px;
       text-align: center;
       color: white;
       cursor: move;
@@ -28,139 +28,202 @@
       margin: 0 auto;
     }
 
-    .explorer-window {
+    .window {
       position: absolute;
-      top: 100px;
-      left: 100px;
-      width: 300px;
-      background: #c0c0c0;
-      border: 2px solid #000;
-      box-shadow: 5px 5px 0px #808080;
+      width: 320px;
+      background: #f0f0f0;
+      border: 2px solid #000080;
       display: none;
-      z-index: 1000;
+      box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
     }
 
-    .title-bar {
+    .window-header {
       background: #000080;
       color: white;
-      padding: 4px;
-      font-weight: bold;
+      padding: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       cursor: move;
     }
 
-    .content {
+    .window-header span {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .close-btn {
+      background: red;
+      color: white;
+      border: none;
+      font-weight: bold;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      line-height: 24px;
+      cursor: pointer;
+    }
+
+    .window-content {
       padding: 10px;
-      background: white;
+    }
+
+    .file-link {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      text-decoration: none;
       color: black;
     }
 
-    .content a {
-      display: block;
-      margin-bottom: 5px;
-      text-decoration: none;
-      color: #0000cc;
+    .file-link img {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
     }
 
-    .content a:hover {
-      text-decoration: underline;
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 32px;
+      background: linear-gradient(to top, #000080, #3366cc);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      color: white;
+      font-size: 14px;
+      box-shadow: inset 0 1px #999;
+    }
+
+    .start-button {
+      background: #c0c0c0;
+      border: 2px outset #fff;
+      padding: 2px 10px;
+      color: black;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .taskbar::after {
+      content: attr(title);
+      position: absolute;
+      bottom: 36px;
+      left: 10px;
+      background: #fff8dc;
+      color: black;
+      padding: 4px 8px;
+      font-size: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .taskbar:hover::after {
+      display: block;
     }
   </style>
 </head>
 <body>
 
-  <!-- Desktop icons -->
-  <div class="desktop-icon" style="top: 100px; left: 50px;" onclick="openWindow('frontend')">
-    <img src="folder.png" alt="Frontend">
+  <!-- Desktop Icons -->
+  <div class="desktop-icon" style="top: 100px; left: 50px;" onclick="openWindow('frontendWindow')">
+    <img src="folder.png" alt="frontend">
     <div>frontend</div>
   </div>
 
-  <div class="desktop-icon" style="top: 180px; left: 50px;" onclick="openWindow('backend')">
-    <img src="folder.png" alt="Backend">
+  <div class="desktop-icon" style="top: 180px; left: 50px;" onclick="openWindow('backendWindow')">
+    <img src="folder.png" alt="backend">
     <div>backend</div>
   </div>
 
-  <div class="desktop-icon" style="top: 260px; left: 50px;" onclick="openWindow('about-me')">
-    <img src="folder.png" alt="About Me">
+  <div class="desktop-icon" style="top: 260px; left: 50px;" onclick="openWindow('aboutWindow')">
+    <img src="folder.png" alt="about">
     <div>about-me</div>
   </div>
 
-  <!-- Explorer windows -->
-  <div class="explorer-window" id="frontend-window">
-    <div class="title-bar" onmousedown="startDrag(event, this.parentElement)">Frontend</div>
-    <div class="content">
-      <a href="frontend/section1.html">section1.html</a>
-      <a href="frontend/section2.html">section2.html</a>
+  <!-- Popup Windows -->
+  <div class="window" id="frontendWindow" style="top: 100px; left: 200px;">
+    <div class="window-header">
+      <span>📁 frontend</span>
+      <button class="close-btn" onclick="closeWindow('frontendWindow')">✖</button>
+    </div>
+    <div class="window-content">
+      <a class="file-link" href="frontend/section1.html" target="_blank">
+        <img src="file-icon.png" alt="file">section1.html
+      </a>
+      <a class="file-link" href="frontend/section2.html" target="_blank">
+        <img src="file-icon.png" alt="file">section2.html
+      </a>
     </div>
   </div>
 
-  <div class="explorer-window" id="backend-window">
-    <div class="title-bar" onmousedown="startDrag(event, this.parentElement)">Backend</div>
-    <div class="content">
-      <a href="backend/section1.html">section1.html</a>
-      <a href="backend/section2.html">section2.html</a>
+  <div class="window" id="backendWindow" style="top: 150px; left: 250px;">
+    <div class="window-header">
+      <span>📁 backend</span>
+      <button class="close-btn" onclick="closeWindow('backendWindow')">✖</button>
+    </div>
+    <div class="window-content">
+      <a class="file-link" href="backend/section1.html" target="_blank">
+        <img src="file-icon.png" alt="file">section1.html
+      </a>
+      <a class="file-link" href="backend/section2.html" target="_blank">
+        <img src="file-icon.png" alt="file">section2.html
+      </a>
     </div>
   </div>
 
-  <div class="explorer-window" id="about-me-window">
-    <div class="title-bar" onmousedown="startDrag(event, this.parentElement)">About Me</div>
-    <div class="content">
-      <a href="about-me/section1.html">section1.html</a>
-      <a href="about-me/section2.html">section2.html</a>
+  <div class="window" id="aboutWindow" style="top: 200px; left: 300px;">
+    <div class="window-header">
+      <span>📁 about-me</span>
+      <button class="close-btn" onclick="closeWindow('aboutWindow')">✖</button>
     </div>
+    <div class="window-content">
+      <a class="file-link" href="about-me/section1.html" target="_blank">
+        <img src="file-icon.png" alt="file">section1.html
+      </a>
+      <a class="file-link" href="about-me/section2.html" target="_blank">
+        <img src="file-icon.png" alt="file">section2.html
+      </a>
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div class="taskbar" title="This is just for display. Update to Windows 11 to activate.">
+    <div class="start-button">Start</div>
+    <div style="margin-left:auto; margin-right:10px;">🕒 19:45</div>
   </div>
 
   <script>
     function openWindow(id) {
-      document.getElementById(id + '-window').style.display = 'block';
+      document.getElementById(id).style.display = 'block';
     }
 
-    // Draggable logic for explorer windows
-    let offsetX, offsetY, dragTarget = null;
-
-    function startDrag(e, target) {
-      dragTarget = target;
-      offsetX = e.clientX - target.offsetLeft;
-      offsetY = e.clientY - target.offsetTop;
-      document.addEventListener('mousemove', drag);
-      document.addEventListener('mouseup', stopDrag);
+    function closeWindow(id) {
+      document.getElementById(id).style.display = 'none';
     }
 
-    function drag(e) {
-      if (dragTarget) {
-        dragTarget.style.left = (e.clientX - offsetX) + 'px';
-        dragTarget.style.top = (e.clientY - offsetY) + 'px';
-      }
-    }
-
-    function stopDrag() {
-      dragTarget = null;
-      document.removeEventListener('mousemove', drag);
-      document.removeEventListener('mouseup', stopDrag);
-    }
-
-    // Draggable desktop icons
+    // Make desktop icons draggable
     document.querySelectorAll('.desktop-icon').forEach(icon => {
-      let isDragging = false, x, y;
+      let offsetX, offsetY, isDragging = false;
 
       icon.addEventListener('mousedown', e => {
         isDragging = true;
-        x = e.clientX - icon.offsetLeft;
-        y = e.clientY - icon.offsetTop;
+        offsetX = e.clientX - icon.offsetLeft;
+        offsetY = e.clientY - icon.offsetTop;
+        icon.style.zIndex = 999;
       });
+
+      document.addEventListener('mouseup', () => isDragging = false);
 
       document.addEventListener('mousemove', e => {
         if (isDragging) {
-          icon.style.left = (e.clientX - x) + 'px';
-          icon.style.top = (e.clientY - y) + 'px';
+          icon.style.left = `${e.clientX - offsetX}px`;
+          icon.style.top = `${e.clientY - offsetY}px`;
         }
-      });
-
-      document.addEventListener('mouseup', () => {
-        isDragging = false;
       });
     });
   </script>
 </body>
 </html>
-
-
