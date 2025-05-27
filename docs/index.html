@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Windows XP Mock Desktop</title>
   <style>
     body {
       margin: 0;
       font-family: sans-serif;
-      background: url('background.jpg') no-repeat center center fixed;
+      background: url('background.png') no-repeat center center fixed;
       background-size: cover;
       overflow: hidden;
     }
@@ -17,7 +17,8 @@
       text-align: center;
       width: 80px;
       color: white;
-      cursor: default;
+      cursor: move;
+      user-select: none;
     }
 
     .desktop-icon img {
@@ -44,6 +45,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      cursor: move;
+      user-select: none;
     }
 
     .popup-body {
@@ -74,6 +77,7 @@
       display: flex;
       align-items: center;
       padding: 0 10px;
+      font-size: 14px;
     }
 
     .taskbar span {
@@ -84,6 +88,8 @@
     .taskbar-icons {
       display: flex;
       gap: 10px;
+      margin-left: auto;
+      margin-right: 10px;
     }
 
     .taskbar-icons img {
@@ -124,7 +130,7 @@
 
   <!-- Popups -->
   <div class="popup" id="frontend">
-    <div class="popup-header">
+    <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
       frontend
       <button onclick="closePopup('frontend')">X</button>
     </div>
@@ -135,7 +141,7 @@
   </div>
 
   <div class="popup" id="backend">
-    <div class="popup-header">
+    <div class="popup-header" onmousedown="startDrag(event, 'backend')">
       backend
       <button onclick="closePopup('backend')">X</button>
     </div>
@@ -146,7 +152,7 @@
   </div>
 
   <div class="popup" id="about">
-    <div class="popup-header">
+    <div class="popup-header" onmousedown="startDrag(event, 'about')">
       about-me
       <button onclick="closePopup('about')">X</button>
     </div>
@@ -169,12 +175,61 @@
 
   <script>
     function openPopup(id) {
-      document.getElementById(id).style.display = 'block';
+      const popup = document.getElementById(id);
+      popup.style.display = 'block';
+      popup.style.zIndex = Date.now();
     }
 
     function closePopup(id) {
       document.getElementById(id).style.display = 'none';
     }
+
+    // Drag for popups
+    let activePopup = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    function startDrag(e, id) {
+      activePopup = document.getElementById(id);
+      offsetX = e.clientX - activePopup.offsetLeft;
+      offsetY = e.clientY - activePopup.offsetTop;
+      document.onmousemove = dragMove;
+      document.onmouseup = dragEnd;
+    }
+
+    function dragMove(e) {
+      if (!activePopup) return;
+      activePopup.style.left = (e.clientX - offsetX) + 'px';
+      activePopup.style.top = (e.clientY - offsetY) + 'px';
+    }
+
+    function dragEnd() {
+      document.onmousemove = null;
+      document.onmouseup = null;
+      activePopup = null;
+    }
+
+    // Drag for desktop icons
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+      icon.addEventListener('mousedown', function (e) {
+        const el = this;
+        const startX = e.clientX - el.offsetLeft;
+        const startY = e.clientY - el.offsetTop;
+
+        function moveAt(e) {
+          el.style.left = (e.clientX - startX) + 'px';
+          el.style.top = (e.clientY - startY) + 'px';
+        }
+
+        function stopDrag() {
+          document.removeEventListener('mousemove', moveAt);
+          document.removeEventListener('mouseup', stopDrag);
+        }
+
+        document.addEventListener('mousemove', moveAt);
+        document.addEventListener('mouseup', stopDrag);
+      });
+    });
   </script>
 </body>
 </html>
