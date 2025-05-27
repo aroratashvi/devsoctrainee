@@ -1,229 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Windows XP - Portfolio</title>
+  <meta charset="UTF-8">
+  <title>Windows XP Mock Desktop</title>
   <style>
     body {
       margin: 0;
-      overflow: hidden;
-      font-family: Tahoma, sans-serif;
+      font-family: sans-serif;
       background: url('background.png') no-repeat center center fixed;
       background-size: cover;
+      height: 100vh;
+      overflow: hidden;
     }
 
     .desktop-icon {
       position: absolute;
-      width: 70px;
       text-align: center;
+      width: 80px;
       color: white;
-      cursor: move;
-      user-select: none;
+      cursor: default;
     }
 
     .desktop-icon img {
       width: 48px;
       height: 48px;
-      display: block;
-      margin: 0 auto;
     }
 
-    .window {
+    .popup {
       position: absolute;
-      width: 320px;
-      background: #f0f0f0;
+      top: 100px;
+      left: 100px;
+      width: 300px;
+      background: white;
       border: 2px solid #000080;
       display: none;
-      box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+      z-index: 10;
     }
 
-    .window-header {
+    .popup-header {
       background: #000080;
       color: white;
       padding: 5px;
+      font-weight: bold;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: move;
     }
 
-    .window-header span {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .close-btn {
-      background: red;
-      color: white;
-      border: none;
-      font-weight: bold;
-      width: 24px;
-      height: 24px;
-      text-align: center;
-      line-height: 24px;
-      cursor: pointer;
-    }
-
-    .window-content {
+    .popup-body {
       padding: 10px;
+      background: #f0f0f0;
+      color: black;
     }
 
     .file-link {
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
-      text-decoration: none;
-      color: black;
+      margin: 5px 0;
     }
 
     .file-link img {
       width: 20px;
       height: 20px;
-      margin-right: 8px;
+      margin-right: 5px;
     }
 
     .taskbar {
-      position: fixed;
+      position: absolute;
       bottom: 0;
-      left: 0;
       width: 100%;
-      height: 32px;
-      background: linear-gradient(to top, #000080, #3366cc);
+      height: 30px;
+      background: #000080;
+      color: white;
       display: flex;
       align-items: center;
       padding: 0 10px;
-      color: white;
-      font-size: 14px;
-      box-shadow: inset 0 1px #999;
     }
 
-    .start-button {
-      background: #c0c0c0;
-      border: 2px outset #fff;
-      padding: 2px 10px;
-      color: black;
-      font-weight: bold;
+    .taskbar span {
+      margin-left: auto;
       margin-right: 10px;
     }
 
-    .taskbar::after {
-      content: attr(title);
-      position: absolute;
-      bottom: 36px;
-      left: 10px;
-      background: #fff8dc;
-      color: black;
-      padding: 4px 8px;
-      font-size: 12px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      display: none;
+    .taskbar-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .taskbar-icons img {
+      height: 18px;
+      width: 18px;
     }
 
     .taskbar:hover::after {
-      display: block;
+      content: 'This is just for display. Upgrade to XP SP10 to activate.';
+      position: absolute;
+      bottom: 30px;
+      right: 10px;
+      background: #000;
+      color: #0f0;
+      padding: 5px;
+      font-size: 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
 
   <!-- Desktop Icons -->
-  <div class="desktop-icon" style="top: 100px; left: 50px;" onclick="openWindow('frontendWindow')">
-    <img src="folder.png" alt="frontend">
+  <div class="desktop-icon" style="top: 100px; left: 100px;" ondblclick="openPopup('frontend')">
+    <img src="folder.png" alt="Frontend">
     <div>frontend</div>
   </div>
 
-  <div class="desktop-icon" style="top: 180px; left: 50px;" onclick="openWindow('backendWindow')">
-    <img src="folder.png" alt="backend">
+  <div class="desktop-icon" style="top: 200px; left: 100px;" ondblclick="openPopup('backend')">
+    <img src="folder.png" alt="Backend">
     <div>backend</div>
   </div>
 
-  <div class="desktop-icon" style="top: 260px; left: 50px;" onclick="openWindow('aboutWindow')">
-    <img src="folder.png" alt="about">
-    <div>about-me</div>
+  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openPopup('about')">
+    <img src="folder.png" alt="About Me">
+    <div>about me</div>
   </div>
 
-  <!-- Popup Windows -->
-  <div class="window" id="frontendWindow" style="top: 100px; left: 200px;">
-    <div class="window-header">
-      <span>📁 frontend</span>
-      <button class="close-btn" onclick="closeWindow('frontendWindow')">✖</button>
+  <!-- Popups -->
+  <div class="popup" id="frontend">
+    <div class="popup-header">
+      frontend
+      <button onclick="closePopup('frontend')">X</button>
     </div>
-    <div class="window-content">
-      <a class="file-link" href="frontend/section1.html" target="_blank">
-        <img src="file-icon.png" alt="file">section1.html
-      </a>
-      <a class="file-link" href="frontend/section2.html" target="_blank">
-        <img src="file-icon.png" alt="file">section2.html
-      </a>
+    <div class="popup-body">
+      <div class="file-link"><img src="file.png"> section1.html</div>
+      <div class="file-link"><img src="file.png"> section2.html</div>
     </div>
   </div>
 
-  <div class="window" id="backendWindow" style="top: 150px; left: 250px;">
-    <div class="window-header">
-      <span>📁 backend</span>
-      <button class="close-btn" onclick="closeWindow('backendWindow')">✖</button>
+  <div class="popup" id="backend">
+    <div class="popup-header">
+      backend
+      <button onclick="closePopup('backend')">X</button>
     </div>
-    <div class="window-content">
-      <a class="file-link" href="backend/section1.html" target="_blank">
-        <img src="file-icon.png" alt="file">section1.html
-      </a>
-      <a class="file-link" href="backend/section2.html" target="_blank">
-        <img src="file-icon.png" alt="file">section2.html
-      </a>
+    <div class="popup-body">
+      <div class="file-link"><img src="file.png"> section1.html</div>
+      <div class="file-link"><img src="file.png"> section2.html</div>
     </div>
   </div>
 
-  <div class="window" id="aboutWindow" style="top: 200px; left: 300px;">
-    <div class="window-header">
-      <span>📁 about-me</span>
-      <button class="close-btn" onclick="closeWindow('aboutWindow')">✖</button>
+  <div class="popup" id="about">
+    <div class="popup-header">
+      about-me
+      <button onclick="closePopup('about')">X</button>
     </div>
-    <div class="window-content">
-      <a class="file-link" href="about-me/section1.html" target="_blank">
-        <img src="file-icon.png" alt="file">section1.html
-      </a>
-      <a class="file-link" href="about-me/section2.html" target="_blank">
-        <img src="file-icon.png" alt="file">section2.html
-      </a>
+    <div class="popup-body">
+      <div class="file-link"><img src="file.png"> section1.html</div>
+      <div class="file-link"><img src="file.png"> section2.html</div>
     </div>
   </div>
 
   <!-- Taskbar -->
-  <div class="taskbar" title="This is just for display. Update to Windows 11 to activate.">
-    <div class="start-button">Start</div>
-    <div style="margin-left:auto; margin-right:10px;">🕒 19:45</div>
+  <div class="taskbar">
+    <img src="start.png" alt="Start" style="height: 20px; margin-right: 10px;">
+    <div class="taskbar-icons">
+      <img src="sound.png" alt="Sound">
+      <img src="network.png" alt="Network">
+      <img src="battery.png" alt="Battery">
+    </div>
+    <span>19:45</span>
   </div>
 
   <script>
-    function openWindow(id) {
+    function openPopup(id) {
       document.getElementById(id).style.display = 'block';
     }
 
-    function closeWindow(id) {
+    function closePopup(id) {
       document.getElementById(id).style.display = 'none';
     }
-
-    // Make desktop icons draggable
-    document.querySelectorAll('.desktop-icon').forEach(icon => {
-      let offsetX, offsetY, isDragging = false;
-
-      icon.addEventListener('mousedown', e => {
-        isDragging = true;
-        offsetX = e.clientX - icon.offsetLeft;
-        offsetY = e.clientY - icon.offsetTop;
-        icon.style.zIndex = 999;
-      });
-
-      document.addEventListener('mouseup', () => isDragging = false);
-
-      document.addEventListener('mousemove', e => {
-        if (isDragging) {
-          icon.style.left = `${e.clientX - offsetX}px`;
-          icon.style.top = `${e.clientY - offsetY}px`;
-        }
-      });
-    });
   </script>
 </body>
 </html>
