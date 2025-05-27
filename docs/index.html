@@ -1,99 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Me - Opposites Attract</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-900 text-gray-100 font-mono">
-    <header class="text-center py-8 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-md">
-      <h1 class="text-4xl font-bold">~/about-me — Opposites Attract</h1>
-      <p class="mt-1 text-sm">open files: frontend.txt | backend.txt | theme.md</p>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <title>Trial - File Explorer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: url('e7e091fc-aefe-4053-933e-7a69d50a24e3.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
 
-    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Frontend File Window -->
-      <section class="bg-gray-800 rounded-xl border border-pink-500 shadow-lg">
-        <div class="flex items-center justify-between px-4 py-2 border-b border-pink-500 bg-pink-700/20">
-          <span class="text-pink-300">frontend.txt</span>
-          <div class="space-x-1">
-            <span class="inline-block w-2 h-2 bg-red-500 rounded-full"></span>
-            <span class="inline-block w-2 h-2 bg-yellow-400 rounded-full"></span>
-            <span class="inline-block w-2 h-2 bg-green-500 rounded-full"></span>
-          </div>
-        </div>
-        <div class="p-4 space-y-4">
-          <!-- Trial -->
-          <div>
-            <h3 class="text-lg text-pink-300 font-semibold">Adventurous</h3>
-            <p class="text-gray-300">I love exploring new places and trying unexpected things.</p>
-          </div>
-          <div>
-            <h3 class="text-lg text-pink-300 font-semibold">Artistic</h3>
-            <p class="text-gray-300">Creativity is my passion—whether it's painting or designing UI.</p>
-          </div>
-          <div>
-            <h3 class="text-lg text-pink-300 font-semibold">Foodie</h3>
-            <p class="text-gray-300">Trying out diverse cuisines and food styling is my jam.</p>
-          </div>
-          <!-- Trial -->
-        </div>
-      </section>
+    .explorer {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 20px;
+      margin: 50px;
+      border-radius: 10px;
+      width: 300px;
+    }
 
-      <!-- Theme Explanation File Window -->
-      <section class="bg-gray-800 rounded-xl border border-purple-500 shadow-lg">
-        <div class="flex items-center justify-between px-4 py-2 border-b border-purple-500 bg-purple-700/20">
-          <span class="text-purple-300">theme.md</span>
-          <div class="space-x-1">
-            <span class="inline-block w-2 h-2 bg-red-500 rounded-full"></span>
-            <span class="inline-block w-2 h-2 bg-yellow-400 rounded-full"></span>
-            <span class="inline-block w-2 h-2 bg-green-500 rounded-full"></span>
-          </div>
-        </div>
-        <div class="p-4 space-y-4">
-          <p class="text-gray-300">
-            This site is a digital reflection of two halves: vibrant creativity meets structured logic.
-            Just like how frontend and backend developers work together to make magic happen,
-            my personality is a fusion of energy and engineering.
-          </p>
-          <!-- Trial -->
-        </div>
-      </section>
+    .folder {
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 0;
+    }
 
-      <!-- Backend File Window -->
-      <section class="bg-gray-800 rounded-xl border border-indigo-500 shadow-lg">
-        <div class="flex items-center justify-between px-4 py-2 border-b border-indigo-500 bg-indigo-700/20">
-          <span class="text-indigo-300">backend.txt</span>
-          <div class="space-x-1">
-            <span class="inline-block w-2 h-2 bg-red-500 rounded-full"></span>
-            <span class="inline-block w-2 h-2 bg-yellow-400 rounded-full"></span>
-            <span class="inline-block w-2 h-2 bg-green-500 rounded-full"></span>
-          </div>
-        </div>
-        <div class="p-4 space-y-4">
-          <div>
-            <h3 class="text-lg text-indigo-300 font-semibold">Courses Completed</h3>
-            <ul class="list-disc ml-6 text-gray-300">
-              <li>COMP1531 - Software Engineering (HD)</li>
-              <li>COMP2521 - Data Structures & Algorithms (DN)</li>
-              <!-- Trial -->
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-lg text-indigo-300 font-semibold">Technical Experience</h3>
-            <p class="text-gray-300">
-              I've built backend systems using Node.js, PostgreSQL, Express, and RESTful APIs. From authentication to deployment, I thrive in the logic layer.
-            </p>
-          </div>
-          <!-- Trial -->
-        </div>
-      </section>
-    </main>
+    .files {
+      margin-left: 20px;
+      display: none;
+    }
 
-    <footer class="text-center text-gray-500 py-6 text-sm">
-      <p>© 2025 Your Name — Designed with 💻 on GitHub Pages</p>
-    </footer>
-  </body>
+    .files a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 5px 0;
+    }
+
+    .files a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="explorer">
+    <div class="folder" onclick="toggle('frontend')">📁 frontend</div>
+    <div id="frontend" class="files">
+      <a href="frontend/section1.html">section1.html</a>
+      <a href="frontend/section2.html">section2.html</a>
+    </div>
+
+    <div class="folder" onclick="toggle('backend')">📁 backend</div>
+    <div id="backend" class="files">
+      <a href="backend/section1.html">section1.html</a>
+      <a href="backend/section2.html">section2.html</a>
+    </div>
+
+    <div class="folder" onclick="toggle('about-me')">📁 about-me</div>
+    <div id="about-me" class="files">
+      <a href="about-me/section1.html">section1.html</a>
+      <a href="about-me/section2.html">section2.html</a>
+    </div>
+  </div>
+
+  <script>
+    function toggle(id) {
+      const el = document.getElementById(id);
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
 </html>
+
 
