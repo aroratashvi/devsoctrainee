@@ -1,74 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Trial - File Explorer</title>
+  <meta charset="UTF-8" />
+  <title>Vintage Desktop</title>
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
       background: url('background.jpg') no-repeat center center fixed;
       background-size: cover;
+      font-family: Tahoma, sans-serif;
+      overflow: hidden;
+    }
+
+    .desktop-icon {
+      position: absolute;
+      width: 64px;
+      text-align: center;
       color: white;
+      cursor: move;
+      user-select: none;
     }
 
-    .explorer {
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 20px;
-      margin: 50px;
-      border-radius: 10px;
-      width: 300px;
-    }
-
-    .folder {
-      cursor: pointer;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    .files {
-      margin-left: 20px;
-      display: none;
-    }
-
-    .files a {
+    .desktop-icon img {
+      width: 48px;
+      height: 48px;
       display: block;
-      color: white;
-      text-decoration: none;
-      margin: 5px 0;
+      margin: 0 auto;
     }
 
-    .files a:hover {
+    .explorer-window {
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      width: 300px;
+      background: #c0c0c0;
+      border: 2px solid #000;
+      box-shadow: 5px 5px 0px #808080;
+      display: none;
+      z-index: 1000;
+    }
+
+    .title-bar {
+      background: #000080;
+      color: white;
+      padding: 4px;
+      font-weight: bold;
+      cursor: move;
+    }
+
+    .content {
+      padding: 10px;
+      background: white;
+      color: black;
+    }
+
+    .content a {
+      display: block;
+      margin-bottom: 5px;
+      text-decoration: none;
+      color: #0000cc;
+    }
+
+    .content a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="explorer">
-    <div class="folder" onclick="toggle('frontend')">📁 frontend</div>
-    <div id="frontend" class="files">
+
+  <!-- Desktop icons -->
+  <div class="desktop-icon" style="top: 100px; left: 50px;" onclick="openWindow('frontend')">
+    <img src="frontend-icon.png" alt="Frontend">
+    <div>frontend</div>
+  </div>
+
+  <div class="desktop-icon" style="top: 180px; left: 50px;" onclick="openWindow('backend')">
+    <img src="backend-icon.png" alt="Backend">
+    <div>backend</div>
+  </div>
+
+  <div class="desktop-icon" style="top: 260px; left: 50px;" onclick="openWindow('about-me')">
+    <img src="aboutme-icon.png" alt="About Me">
+    <div>about-me</div>
+  </div>
+
+  <!-- Explorer windows -->
+  <div class="explorer-window" id="frontend-window">
+    <div class="title-bar" onmousedown="startDrag(event, this.parentElement)">Frontend</div>
+    <div class="content">
       <a href="frontend/section1.html">section1.html</a>
       <a href="frontend/section2.html">section2.html</a>
     </div>
+  </div>
 
-    <div class="folder" onclick="toggle('backend')">📁 backend</div>
-    <div id="backend" class="files">
+  <div class="explorer-window" id="backend-window">
+    <div class="title-bar" onmousedown="startDrag(event, this.parentElement)">Backend</div>
+    <div class="content">
       <a href="backend/section1.html">section1.html</a>
       <a href="backend/section2.html">section2.html</a>
     </div>
+  </div>
 
-    <div class="folder" onclick="toggle('about-me')">📁 about-me</div>
-    <div id="about-me" class="files">
+  <div class="explorer-window" id="about-me-window">
+    <div class="title-bar" onmousedown="startDrag(event, this.parentElement)">About Me</div>
+    <div class="content">
       <a href="about-me/section1.html">section1.html</a>
       <a href="about-me/section2.html">section2.html</a>
     </div>
   </div>
 
   <script>
-    function toggle(id) {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    function openWindow(id) {
+      document.getElementById(id + '-window').style.display = 'block';
     }
+
+    // Draggable logic for explorer windows
+    let offsetX, offsetY, dragTarget = null;
+
+    function startDrag(e, target) {
+      dragTarget = target;
+      offsetX = e.clientX - target.offsetLeft;
+      offsetY = e.clientY - target.offsetTop;
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', stopDrag);
+    }
+
+    function drag(e) {
+      if (dragTarget) {
+        dragTarget.style.left = (e.clientX - offsetX) + 'px';
+        dragTarget.style.top = (e.clientY - offsetY) + 'px';
+      }
+    }
+
+    function stopDrag() {
+      dragTarget = null;
+      document.removeEventListener('mousemove', drag);
+      document.removeEventListener('mouseup', stopDrag);
+    }
+
+    // Draggable desktop icons
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+      let isDragging = false, x, y;
+
+      icon.addEventListener('mousedown', e => {
+        isDragging = true;
+        x = e.clientX - icon.offsetLeft;
+        y = e.clientY - icon.offsetTop;
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (isDragging) {
+          icon.style.left = (e.clientX - x) + 'px';
+          icon.style.top = (e.clientY - y) + 'px';
+        }
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+    });
   </script>
 </body>
 </html>
