@@ -131,6 +131,23 @@
     <div>backend</div>
   </div>
 
+  <!-- Terminal -->
+  <div class="popup" id="terminal" style="top: 120px; left: 300px; display: block;">
+    <div class="popup-header" onmousedown="startDrag(event, 'terminal')">
+      terminal <button onclick="closePopup('terminal')">X</button>
+    </div>
+    <div class="popup-body" style="font-family: monospace; white-space: pre-wrap;">
+      $ welcome to the terminal  
+      > frontend and backend are opposites but together AWESOME PROJECT,  
+      > HEY THAT'S ME AS A PERSON TOO.  
+    
+      > You can double click on the frontend folder to find the creative, adventurous side of me,  
+      > and double click on the backend folder to find the logical, code side of me.  
+    
+      > Note: I'm super cool so I made all folders and popups draggable ;)
+    </div>
+  </div>
+
   <!-- Popups for folders -->
   <div class="popup" id="frontend">
     <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
