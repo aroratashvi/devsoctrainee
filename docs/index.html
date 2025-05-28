@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Windows XP Mock Desktop</title>
+  <title>XP Style Desktop</title>
   <style>
     body {
       margin: 0;
@@ -32,26 +32,26 @@
       left: 100px;
       width: 300px;
       background: white;
-      border: 2px solid #000080;
+      border: 2px solid #888;
       display: none;
       z-index: 10;
+      box-shadow: 2px 2px 10px #444;
     }
 
     .popup-header {
-      background: #000080;
-      color: white;
+      background: #ddd;
+      color: black;
       padding: 5px;
       font-weight: bold;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: move;
-      user-select: none;
     }
 
     .popup-body {
       padding: 10px;
-      background: #f0f0f0;
+      background: #f9f9f9;
       color: black;
     }
 
@@ -73,24 +73,28 @@
       bottom: 0;
       width: 100%;
       height: 30px;
-      background: #000080;
-      color: white;
+      background: #ccc;
+      color: black;
       display: flex;
       align-items: center;
       padding: 0 10px;
       font-size: 14px;
+      box-shadow: 0 -2px 5px #0004;
     }
 
-    .taskbar span {
-      margin-left: auto;
+    .start-button {
+      background: #eee;
+      border: 1px solid #aaa;
+      padding: 3px 10px;
       margin-right: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
     }
 
     .taskbar-icons {
       display: flex;
       gap: 10px;
-      margin-left: auto;
-      margin-right: 10px;
     }
 
     .taskbar-icons img {
@@ -98,17 +102,21 @@
       width: 18px;
     }
 
-    .taskbar:hover::after {
-      content: 'Just for display. Upgrade to XP SP10 to activate.';
+    .clock {
+      margin-left: auto;
+      margin-right: 10px;
+    }
+
+    .taskbar-icons:hover::after {
+      content: 'This is a mock desktop. XP Forever!';
       position: absolute;
-      bottom: 30px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.85);
+      bottom: 35px;
+      left: 10px;
+      background: #333;
       color: #fff;
-      padding: 8px 10px;
       font-size: 12px;
-      border-radius: 4px;
-      white-space: nowrap;
+      padding: 6px 10px;
+      border-radius: 6px;
     }
   </style>
 </head>
@@ -125,71 +133,49 @@
     <div>backend</div>
   </div>
 
-  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openPopup('terminal')">
-    <img src="terminal-icon.png" alt="Terminal">
-    <div>terminal</div>
-  </div>
-
   <!-- Popups -->
   <div class="popup" id="frontend">
     <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
-      frontend
-      <button onclick="closePopup('frontend')">X</button>
+      frontend <button onclick="closePopup('frontend')">X</button>
     </div>
     <div class="popup-body">
-      <div class="file-link" onclick="openFile('file1')"><img src="textfile-icon.png"> file.txt</div>
+      <div class="file-link" ondblclick="openTextFile('file1')"><img src="file.png"> file.txt</div>
     </div>
   </div>
 
   <div class="popup" id="backend">
     <div class="popup-header" onmousedown="startDrag(event, 'backend')">
-      backend
-      <button onclick="closePopup('backend')">X</button>
+      backend <button onclick="closePopup('backend')">X</button>
     </div>
     <div class="popup-body">
-      <div class="file-link" onclick="openFile('file2')"><img src="textfile-icon.png"> file.txt</div>
+      <div class="file-link" ondblclick="openTextFile('file2')"><img src="file.png"> file.txt</div>
     </div>
   </div>
 
-  <div class="popup" id="terminal">
-    <div class="popup-header" onmousedown="startDrag(event, 'terminal')">
-      Terminal
-      <button onclick="closePopup('terminal')">X</button>
-    </div>
-    <div class="popup-body">
-      <p>> _</p>
-    </div>
-  </div>
-
+  <!-- Text File Popups -->
   <div class="popup" id="file1">
     <div class="popup-header" onmousedown="startDrag(event, 'file1')">
-      file.txt
-      <button onclick="closePopup('file1')">X</button>
+      file.txt <button onclick="closePopup('file1')">X</button>
     </div>
-    <div class="popup-body">
-      content
-    </div>
+    <div class="popup-body">content</div>
   </div>
 
   <div class="popup" id="file2">
     <div class="popup-header" onmousedown="startDrag(event, 'file2')">
-      file.txt
-      <button onclick="closePopup('file2')">X</button>
+      file.txt <button onclick="closePopup('file2')">X</button>
     </div>
-    <div class="popup-body">
-      content
-    </div>
+    <div class="popup-body">content</div>
   </div>
 
   <!-- Taskbar -->
   <div class="taskbar">
-    <img src="start-icon.png" alt="Start" style="height: 20px; margin-right: 10px;">
+    <div class="start-button"><img src="start-icon.png" alt="Start" style="height: 16px; margin-right: 5px;">Start</div>
     <div class="taskbar-icons">
       <img src="sound.png" alt="Sound">
       <img src="network.png" alt="Network">
       <img src="battery.png" alt="Battery">
     </div>
-    <span>06:09</span>
+    <div class="clock">06:09</div>
   </div>
 
   <script>
@@ -203,11 +189,6 @@
       document.getElementById(id).style.display = 'none';
     }
 
-    // Open terminal on load
-    window.onload = function () {
-      openPopup('terminal');
-    }
-
     // Drag for popups
     let activePopup = null;
     let offsetX = 0;
@@ -217,8 +198,8 @@
       activePopup = document.getElementById(id);
       offsetX = e.clientX - activePopup.offsetLeft;
       offsetY = e.clientY - activePopup.offsetTop;
-      document.addEventListener('mousemove', dragMove);
-      document.addEventListener('mouseup', dragEnd);
+      document.onmousemove = dragMove;
+      document.onmouseup = dragEnd;
     }
 
     function dragMove(e) {
@@ -228,31 +209,31 @@
     }
 
     function dragEnd() {
-      document.removeEventListener('mousemove', dragMove);
-      document.removeEventListener('mouseup', dragEnd);
+      document.onmousemove = null;
+      document.onmouseup = null;
       activePopup = null;
     }
 
-    // Drag for desktop icons
+    // Desktop icon drag
     document.querySelectorAll('.desktop-icon').forEach(icon => {
-      icon.addEventListener('mousedown', function (e) {
-        const el = this;
-        const startX = e.clientX - el.offsetLeft;
-        const startY = e.clientY - el.offsetTop;
-
+      let offsetX, offsetY;
+      icon.addEventListener('pointerdown', e => {
+        offsetX = e.clientX - icon.offsetLeft;
+        offsetY = e.clientY - icon.offsetTop;
         function moveAt(e) {
-          el.style.left = (e.clientX - startX) + 'px';
-          el.style.top = (e.clientY - startY) + 'px';
+          icon.style.left = (e.clientX - offsetX) + 'px';
+          icon.style.top = (e.clientY - offsetY) + 'px';
         }
-
-        document.addEventListener('mousemove', moveAt);
-
-        document.addEventListener('mouseup', function stopDrag() {
-          document.removeEventListener('mousemove', moveAt);
-          document.removeEventListener('mouseup', stopDrag);
-        });
+        function stopMove() {
+          document.removeEventListener('pointermove', moveAt);
+          document.removeEventListener('pointerup', stopMove);
+        }
+        document.addEventListener('pointermove', moveAt);
+        document.addEventListener('pointerup', stopMove);
       });
     });
   </script>
+
 </body>
 </html>
+
