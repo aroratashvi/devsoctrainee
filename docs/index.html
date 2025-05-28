@@ -125,4 +125,134 @@
     <div>backend</div>
   </div>
 
-  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openP
+  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openPopup('terminal')">
+    <img src="terminal-icon.png" alt="Terminal">
+    <div>terminal</div>
+  </div>
+
+  <!-- Popups -->
+  <div class="popup" id="frontend">
+    <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
+      frontend
+      <button onclick="closePopup('frontend')">X</button>
+    </div>
+    <div class="popup-body">
+      <div class="file-link" onclick="openFile('file1')"><img src="textfile-icon.png"> file.txt</div>
+    </div>
+  </div>
+
+  <div class="popup" id="backend">
+    <div class="popup-header" onmousedown="startDrag(event, 'backend')">
+      backend
+      <button onclick="closePopup('backend')">X</button>
+    </div>
+    <div class="popup-body">
+      <div class="file-link" onclick="openFile('file2')"><img src="textfile-icon.png"> file.txt</div>
+    </div>
+  </div>
+
+  <div class="popup" id="terminal">
+    <div class="popup-header" onmousedown="startDrag(event, 'terminal')">
+      Terminal
+      <button onclick="closePopup('terminal')">X</button>
+    </div>
+    <div class="popup-body">
+      <p>> _</p>
+    </div>
+  </div>
+
+  <div class="popup" id="file1">
+    <div class="popup-header" onmousedown="startDrag(event, 'file1')">
+      file.txt
+      <button onclick="closePopup('file1')">X</button>
+    </div>
+    <div class="popup-body">
+      content
+    </div>
+  </div>
+
+  <div class="popup" id="file2">
+    <div class="popup-header" onmousedown="startDrag(event, 'file2')">
+      file.txt
+      <button onclick="closePopup('file2')">X</button>
+    </div>
+    <div class="popup-body">
+      content
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <img src="start-icon.png" alt="Start" style="height: 20px; margin-right: 10px;">
+    <div class="taskbar-icons">
+      <img src="sound.png" alt="Sound">
+      <img src="network.png" alt="Network">
+      <img src="battery.png" alt="Battery">
+    </div>
+    <span>06:09</span>
+  </div>
+
+  <script>
+    function openPopup(id) {
+      const popup = document.getElementById(id);
+      popup.style.display = 'block';
+      popup.style.zIndex = Date.now();
+    }
+
+    function closePopup(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Open terminal on load
+    window.onload = function () {
+      openPopup('terminal');
+    }
+
+    // Drag for popups
+    let activePopup = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    function startDrag(e, id) {
+      activePopup = document.getElementById(id);
+      offsetX = e.clientX - activePopup.offsetLeft;
+      offsetY = e.clientY - activePopup.offsetTop;
+      document.addEventListener('mousemove', dragMove);
+      document.addEventListener('mouseup', dragEnd);
+    }
+
+    function dragMove(e) {
+      if (!activePopup) return;
+      activePopup.style.left = (e.clientX - offsetX) + 'px';
+      activePopup.style.top = (e.clientY - offsetY) + 'px';
+    }
+
+    function dragEnd() {
+      document.removeEventListener('mousemove', dragMove);
+      document.removeEventListener('mouseup', dragEnd);
+      activePopup = null;
+    }
+
+    // Drag for desktop icons
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+      icon.addEventListener('mousedown', function (e) {
+        const el = this;
+        const startX = e.clientX - el.offsetLeft;
+        const startY = e.clientY - el.offsetTop;
+
+        function moveAt(e) {
+          el.style.left = (e.clientX - startX) + 'px';
+          el.style.top = (e.clientY - startY) + 'px';
+        }
+
+        document.addEventListener('mousemove', moveAt);
+
+        document.addEventListener('mouseup', function stopDrag() {
+          document.removeEventListener('mousemove', moveAt);
+          document.removeEventListener('mouseup', stopDrag);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
