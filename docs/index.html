@@ -17,21 +17,26 @@
       text-align: center;
       width: 80px;
       color: white;
-      cursor: move;
+      cursor: grab;
       user-select: none;
     }
 
     .desktop-icon img {
       width: 48px;
       height: 48px;
+      pointer-events: none;
     }
 
     .popup {
       position: absolute;
       top: 100px;
-      left: 100px;
-      width: 400px;
-      background: white;
+      left: 150px;
+      width: 500px;
+      height: 300px;
+      background: black;
+      color: #00FF00;
+      font-family: monospace;
+      padding: 10px;
       border: 2px solid #000080;
       display: none;
       z-index: 10;
@@ -50,81 +55,73 @@
     }
 
     .popup-body {
-      padding: 0;
-      background: #000;
-      color: #0f0;
-      font-family: monospace;
-    }
-
-    .file-link {
-      display: flex;
-      align-items: center;
-      margin: 5px 0;
-    }
-
-    .file-link img {
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
+      background: black;
+      height: 100%;
+      padding: 10px;
+      overflow-y: auto;
     }
 
     .taskbar {
       position: absolute;
       bottom: 0;
+      left: 0;
       width: 100%;
-      height: 30px;
+      height: 40px;
       background: #000080;
-      color: white;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 0 10px;
-      font-size: 14px;
+      box-sizing: border-box;
+      z-index: 1000;
     }
 
-    .taskbar span {
-      margin-left: auto;
-      margin-right: 10px;
+    .start-button {
+      display: flex;
+      align-items: center;
+      background: #00a000;
+      color: white;
+      font-weight: bold;
+      border: 2px outset #007000;
+      padding: 4px 10px;
+      cursor: pointer;
+      height: 28px;
+    }
+
+    .start-button img {
+      height: 20px;
+      margin-right: 5px;
     }
 
     .taskbar-icons {
       display: flex;
       gap: 10px;
-      margin-left: auto;
-      margin-right: 10px;
+      margin-left: 10px;
     }
 
     .taskbar-icons img {
       height: 18px;
       width: 18px;
+      cursor: pointer;
     }
 
-    .taskbar:hover::after {
-      content: 'This is just for display. Upgrade to XP SP10 to activate.';
-      position: absolute;
-      bottom: 30px;
-      right: 10px;
-      background: #000;
-      color: #0f0;
-      padding: 5px;
-      font-size: 10px;
-      border-radius: 5px;
+    .taskbar-clock {
+      color: white;
+      margin-left: auto;
+      margin-right: 20px;
     }
 
-    #terminal-output {
-      height: 200px;
-      overflow-y: auto;
-      padding: 10px;
-    }
-
-    #terminal-input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 5px;
-      font-family: monospace;
-      background: #000;
-      color: #0f0;
-      border: none;
-      outline: none;
+    .tooltip {
+      position: fixed;
+      background: #1d4ed8;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 9999;
+      display: none;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -146,56 +143,56 @@
     <div>terminal</div>
   </div>
 
-  <!-- Popups -->
+  <!-- Terminal Popup -->
+  <div class="popup" id="terminal" style="display: block;">
+    <div class="popup-header" onmousedown="startDragPopup(event, 'terminal')">
+      terminal
+      <button onclick="closePopup('terminal')">X</button>
+    </div>
+    <div class="popup-body">
+      <p>C:\Users\Trainee&gt; Welcome to the mock terminal!</p>
+      <p>C:\Users\Trainee&gt; Type your commands here...</p>
+    </div>
+  </div>
+
+  <!-- Other Popups -->
   <div class="popup" id="frontend">
-    <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
+    <div class="popup-header" onmousedown="startDragPopup(event, 'frontend')">
       frontend
       <button onclick="closePopup('frontend')">X</button>
     </div>
-    <div class="popup-body">
+    <div class="popup-body" style="background:#f0f0f0; color:black;">
       <div class="file-link"><img src="file.png"> section1.html</div>
       <div class="file-link"><img src="file.png"> section2.html</div>
     </div>
   </div>
 
   <div class="popup" id="backend">
-    <div class="popup-header" onmousedown="startDrag(event, 'backend')">
+    <div class="popup-header" onmousedown="startDragPopup(event, 'backend')">
       backend
       <button onclick="closePopup('backend')">X</button>
     </div>
-    <div class="popup-body">
+    <div class="popup-body" style="background:#f0f0f0; color:black;">
       <div class="file-link"><img src="file.png"> section1.html</div>
       <div class="file-link"><img src="file.png"> section2.html</div>
     </div>
   </div>
 
-  <!-- Terminal Popup -->
-  <div class="popup" id="terminal">
-    <div class="popup-header" onmousedown="startDrag(event, 'terminal')">
-      terminal
-      <button onclick="closePopup('terminal')">X</button>
-    </div>
-    <div class="popup-body">
-      <div id="terminal-output">
-        <div>> Hello! Type a command like "help"</div>
-      </div>
-      <input 
-        type="text" 
-        id="terminal-input" 
-        onkeydown="if(event.key==='Enter') runCommand(this)">
-    </div>
-  </div>
-
   <!-- Taskbar -->
   <div class="taskbar">
-    <img src="start.png" alt="Start" style="height: 20px; margin-right: 10px;">
-    <div class="taskbar-icons">
-      <img src="sound.png" alt="Sound">
-      <img src="network.png" alt="Network">
-      <img src="battery.png" alt="Battery">
+    <div class="start-button" data-tooltip="This is just for display. Upgrade to XP SP10 to activate.">
+      <img src="start.png" alt="Start"> Start
     </div>
-    <span>19:45</span>
+    <div class="taskbar-icons">
+      <img src="sound.png" data-tooltip="Sound Settings">
+      <img src="network.png" data-tooltip="Network Center">
+      <img src="battery.png" data-tooltip="Power Options">
+    </div>
+    <div class="taskbar-clock" id="clock">19:45</div>
   </div>
+
+  <!-- Tooltip -->
+  <div class="tooltip" id="tooltip"></div>
 
   <script>
     function openPopup(id) {
@@ -208,86 +205,71 @@
       document.getElementById(id).style.display = 'none';
     }
 
-    // Dragging popups
+    // Drag popup
     let activePopup = null;
-    let offsetX = 0;
-    let offsetY = 0;
+    let offsetX = 0, offsetY = 0;
 
-    function startDrag(e, id) {
+    function startDragPopup(e, id) {
       activePopup = document.getElementById(id);
       offsetX = e.clientX - activePopup.offsetLeft;
       offsetY = e.clientY - activePopup.offsetTop;
-      document.onmousemove = dragMove;
-      document.onmouseup = dragEnd;
+      document.onmousemove = dragPopupMove;
+      document.onmouseup = () => {
+        document.onmousemove = null;
+        activePopup = null;
+      };
     }
 
-    function dragMove(e) {
+    function dragPopupMove(e) {
       if (!activePopup) return;
       activePopup.style.left = (e.clientX - offsetX) + 'px';
       activePopup.style.top = (e.clientY - offsetY) + 'px';
     }
 
-    function dragEnd() {
-      document.onmousemove = null;
-      document.onmouseup = null;
-      activePopup = null;
-    }
-
     // Drag desktop icons
+    let dragIcon = null;
+
     document.querySelectorAll('.desktop-icon').forEach(icon => {
-      icon.addEventListener('mousedown', function (e) {
-        const el = this;
-        const startX = e.clientX - el.offsetLeft;
-        const startY = e.clientY - el.offsetTop;
-
-        function moveAt(e) {
-          el.style.left = (e.clientX - startX) + 'px';
-          el.style.top = (e.clientY - startY) + 'px';
-        }
-
-        function stopDrag() {
-          document.removeEventListener('mousemove', moveAt);
-          document.removeEventListener('mouseup', stopDrag);
-        }
-
-        document.addEventListener('mousemove', moveAt);
-        document.addEventListener('mouseup', stopDrag);
-      });
+      icon.onmousedown = function (e) {
+        dragIcon = icon;
+        offsetX = e.clientX - icon.offsetLeft;
+        offsetY = e.clientY - icon.offsetTop;
+        document.onmousemove = function (e) {
+          dragIcon.style.left = (e.clientX - offsetX) + 'px';
+          dragIcon.style.top = (e.clientY - offsetY) + 'px';
+        };
+        document.onmouseup = function () {
+          dragIcon = null;
+          document.onmousemove = null;
+        };
+      };
     });
 
-    // Terminal command processing
-    function runCommand(inputElement) {
-      const output = document.getElementById('terminal-output');
-      const command = inputElement.value.trim();
-      const newLine = document.createElement('div');
-      newLine.textContent = '> ' + command;
-      output.appendChild(newLine);
-
-      const response = document.createElement('div');
-      switch (command.toLowerCase()) {
-        case 'help':
-          response.textContent = 'Available commands: help, about, clear';
-          break;
-        case 'about':
-          response.textContent = 'This is a mock Windows XP terminal. Created by Tashvi.';
-          break;
-        case 'clear':
-          output.innerHTML = '';
-          return;
-        default:
-          response.textContent = 'Command not recognized.';
-      }
-
-      output.appendChild(response);
-      output.scrollTop = output.scrollHeight;
-      inputElement.value = '';
+    // Clock updater
+    function updateClock() {
+      const now = new Date();
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}`;
     }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    // Open terminal by default on page load
-    window.onload = function () {
-      openPopup('terminal');
-    };
+    // Tooltip behavior
+    const tooltip = document.getElementById('tooltip');
+    document.querySelectorAll('[data-tooltip]').forEach(el => {
+      el.addEventListener('mouseenter', e => {
+        tooltip.textContent = el.dataset.tooltip;
+        tooltip.style.display = 'block';
+      });
+      el.addEventListener('mousemove', e => {
+        tooltip.style.left = (e.clientX + 15) + 'px';
+        tooltip.style.top = (e.clientY + 15) + 'px';
+      });
+      el.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+    });
   </script>
 </body>
 </html>
-
