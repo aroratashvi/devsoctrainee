@@ -4,10 +4,6 @@
   <meta charset="UTF-8" />
   <title>Windows XP Mock Desktop</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
       font-family: sans-serif;
@@ -30,47 +26,54 @@
       height: 48px;
     }
 
-    .desktop-icon.selected {
-      outline: 2px dashed #fff;
-      outline-offset: -4px;
-    }
-
     .popup {
       position: absolute;
       top: 100px;
       left: 100px;
-      width: 400px;
-      background: black;
-      color: #00ff00;
-      font-family: monospace;
-      border: 2px solid #00ff00;
+      width: 300px;
+      background: white;
+      border: 2px solid #000080;
       display: none;
       z-index: 10;
     }
 
     .popup-header {
-      background: #111;
-      color: #0f0;
+      background: #000080;
+      color: white;
       padding: 5px;
       font-weight: bold;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: move;
+      user-select: none;
     }
 
     .popup-body {
       padding: 10px;
-      height: 200px;
-      overflow: auto;
+      background: #f0f0f0;
+      color: black;
+    }
+
+    .file-link {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+
+    .file-link img {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
     }
 
     .taskbar {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: 35px;
-      background: #1f1f1f;
+      height: 30px;
+      background: #000080;
       color: white;
       display: flex;
       align-items: center;
@@ -78,216 +81,48 @@
       font-size: 14px;
     }
 
-    .start-button {
-      background: #0078d7;
-      color: white;
-      padding: 4px 12px;
+    .taskbar span {
+      margin-left: auto;
       margin-right: 10px;
-      border-radius: 4px;
+    }
+
+    .taskbar-icons {
       display: flex;
-      align-items: center;
-      cursor: pointer;
+      gap: 10px;
+      margin-left: auto;
+      margin-right: 10px;
     }
 
-    .start-button img {
-      height: 16px;
-      margin-right: 5px;
+    .taskbar-icons img {
+      height: 18px;
+      width: 18px;
     }
 
-    .taskbar-message {
+    .taskbar:hover::after {
+      content: 'Just for display. Upgrade to XP SP10 to activate.';
       position: absolute;
-      bottom: 40px;
+      bottom: 30px;
       right: 10px;
       background: rgba(0, 0, 0, 0.85);
-      color: #00ff00;
-      padding: 10px;
-      font-size: 14px;
-      border-radius: 8px;
-      display: none;
-      z-index: 20;
-    }
-
-    .selection-box {
-      position: absolute;
-      border: 1px solid #aaa;
-      background: rgba(255, 255, 255, 0.3);
-      display: none;
-      pointer-events: none;
-      z-index: 1;
+      color: #fff;
+      padding: 8px 10px;
+      font-size: 12px;
+      border-radius: 4px;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
-  <!-- Desktop Icons -->
-  <div class="desktop-icon" style="top: 100px; left: 100px;" ondblclick="openPopup('terminal')">
-    <img src="terminal-icon.png" alt="Terminal">
-    <div>Terminal</div>
-  </div>
 
-  <div class="desktop-icon" style="top: 200px; left: 100px;" ondblclick="openPopup('frontend')">
+  <!-- Desktop Icons -->
+  <div class="desktop-icon" style="top: 100px; left: 100px;" ondblclick="openPopup('frontend')">
     <img src="folder.png" alt="Frontend">
     <div>frontend</div>
   </div>
 
-  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openPopup('backend')">
+  <div class="desktop-icon" style="top: 200px; left: 100px;" ondblclick="openPopup('backend')">
     <img src="folder.png" alt="Backend">
     <div>backend</div>
   </div>
 
-  <!-- Terminal Popup -->
-  <div class="popup" id="terminal" style="display: block; top: 100px; left: 300px;">
-    <div class="popup-header" onmousedown="startDrag(event, 'terminal')">
-      Terminal <button onclick="closePopup('terminal')">X</button>
-    </div>
-    <div class="popup-body">
-      C:\Users\XP> Welcome to XP Terminal<br/>
-      _
-    </div>
-  </div>
-
-  <div class="popup" id="frontend">
-    <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
-      frontend
-      <button onclick="closePopup('frontend')">X</button>
-    </div>
-    <div class="popup-body">
-      <div>section1.html</div>
-      <div>section2.html</div>
-    </div>
-  </div>
-
-  <div class="popup" id="backend">
-    <div class="popup-header" onmousedown="startDrag(event, 'backend')">
-      backend
-      <button onclick="closePopup('backend')">X</button>
-    </div>
-    <div class="popup-body">
-      <div>section1.html</div>
-      <div>section2.html</div>
-    </div>
-  </div>
-
-  <!-- Selection Box -->
-  <div class="selection-box" id="selectionBox"></div>
-
-  <!-- Taskbar -->
-  <div class="taskbar" onclick="showMessage()">
-    <div class="start-button">
-      <img src="start.png" alt="Start">
-      Start
-    </div>
-  </div>
-
-  <div class="taskbar-message" id="taskbarMsg">
-    ✨ This is just a demo XP UI. Upgrade to SP10 to activate.
-  </div>
-
-  <script>
-    function openPopup(id) {
-      const popup = document.getElementById(id);
-      popup.style.display = 'block';
-      popup.style.zIndex = Date.now();
-    }
-
-    function closePopup(id) {
-      document.getElementById(id).style.display = 'none';
-    }
-
-    // Drag popup logic
-    let activePopup = null, offsetX = 0, offsetY = 0;
-
-    function startDrag(e, id) {
-      activePopup = document.getElementById(id);
-      offsetX = e.clientX - activePopup.offsetLeft;
-      offsetY = e.clientY - activePopup.offsetTop;
-      document.addEventListener('mousemove', dragMove);
-      document.addEventListener('mouseup', dragEnd);
-    }
-
-    function dragMove(e) {
-      if (!activePopup) return;
-      requestAnimationFrame(() => {
-        activePopup.style.left = (e.clientX - offsetX) + 'px';
-        activePopup.style.top = (e.clientY - offsetY) + 'px';
-      });
-    }
-
-    function dragEnd() {
-      document.removeEventListener('mousemove', dragMove);
-      document.removeEventListener('mouseup', dragEnd);
-      activePopup = null;
-    }
-
-    // Taskbar message popup
-    function showMessage() {
-      const msg = document.getElementById('taskbarMsg');
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 3000);
-    }
-
-    // Selection box logic
-    const selectionBox = document.getElementById('selectionBox');
-    let startX, startY;
-
-    document.addEventListener('mousedown', (e) => {
-      if (e.target.closest('.desktop-icon') || e.target.closest('.popup')) return;
-      startX = e.clientX;
-      startY = e.clientY;
-      selectionBox.style.left = startX + 'px';
-      selectionBox.style.top = startY + 'px';
-      selectionBox.style.width = '0px';
-      selectionBox.style.height = '0px';
-      selectionBox.style.display = 'block';
-
-      document.addEventListener('mousemove', resizeBox);
-      document.addEventListener('mouseup', finishSelection);
-    });
-
-    function resizeBox(e) {
-      const width = Math.abs(e.clientX - startX);
-      const height = Math.abs(e.clientY - startY);
-      selectionBox.style.width = width + 'px';
-      selectionBox.style.height = height + 'px';
-      selectionBox.style.left = Math.min(e.clientX, startX) + 'px';
-      selectionBox.style.top = Math.min(e.clientY, startY) + 'px';
-    }
-
-    function finishSelection() {
-      const box = selectionBox.getBoundingClientRect();
-      document.querySelectorAll('.desktop-icon').forEach(icon => {
-        const rect = icon.getBoundingClientRect();
-        const inside = !(rect.right < box.left || rect.left > box.right || rect.bottom < box.top || rect.top > box.bottom);
-        icon.classList.toggle('selected', inside);
-      });
-      selectionBox.style.display = 'none';
-      document.removeEventListener('mousemove', resizeBox);
-      document.removeEventListener('mouseup', finishSelection);
-    }
-
-    // Icon dragging
-    document.querySelectorAll('.desktop-icon').forEach(icon => {
-      icon.addEventListener('mousedown', function (e) {
-        if (e.button !== 0) return;
-        const el = this;
-        const startX = e.clientX - el.offsetLeft;
-        const startY = e.clientY - el.offsetTop;
-
-        function moveAt(e) {
-          requestAnimationFrame(() => {
-            el.style.left = (e.clientX - startX) + 'px';
-            el.style.top = (e.clientY - startY) + 'px';
-          });
-        }
-
-        function stopDrag() {
-          document.removeEventListener('mousemove', moveAt);
-          document.removeEventListener('mouseup', stopDrag);
-        }
-
-        document.addEventListener('mousemove', moveAt);
-        document.addEventListener('mouseup', stopDrag);
-      });
-    });
-  </script>
-</body>
-</html>
+  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openP
