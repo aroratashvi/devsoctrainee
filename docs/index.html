@@ -30,7 +30,7 @@
       position: absolute;
       top: 100px;
       left: 100px;
-      width: 300px;
+      width: 320px;
       background: white;
       border: 2px solid #888;
       display: none;
@@ -53,19 +53,22 @@
       padding: 10px;
       background: #f9f9f9;
       color: black;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .file-link {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      margin: 5px 0;
       cursor: pointer;
+      width: 60px;
     }
 
     .file-link img {
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
+      width: 24px;
+      height: 24px;
     }
 
     .taskbar {
@@ -107,16 +110,18 @@
       margin-right: 10px;
     }
 
+    /* Tooltip on hover */
     .taskbar-icons:hover::after {
-      content: 'This is a mock desktop. XP Forever!';
+      content: 'Mock Desktop Interface';
       position: absolute;
       bottom: 35px;
       left: 10px;
-      background: #333;
+      background: #444;
       color: #fff;
-      font-size: 12px;
-      padding: 6px 10px;
+      font-size: 14px;
+      padding: 6px 12px;
       border-radius: 6px;
+      z-index: 999;
     }
   </style>
 </head>
@@ -133,13 +138,33 @@
     <div>backend</div>
   </div>
 
-  <!-- Popups -->
+  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openPopup('terminal')">
+    <img src="terminal.png" alt="Terminal">
+    <div>terminal</div>
+  </div>
+
+  <!-- Terminal -->
+  <div class="popup" id="terminal" style="top: 120px; left: 300px; display: block;">
+    <div class="popup-header" onmousedown="startDrag(event, 'terminal')">
+      terminal <button onclick="closePopup('terminal')">X</button>
+    </div>
+    <div class="popup-body" style="font-family: monospace; white-space: pre-wrap;">
+      $ welcome to the terminal
+    </div>
+  </div>
+
+  <!-- Folder Popups -->
   <div class="popup" id="frontend">
     <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
       frontend <button onclick="closePopup('frontend')">X</button>
     </div>
     <div class="popup-body">
-      <div class="file-link" ondblclick="openTextFile('file1')"><img src="file.png"> file.txt</div>
+      <div class="file-link" ondblclick="openTextFile('file1')">
+        <img src="file.png" alt="File">file1.txt
+      </div>
+      <div class="file-link" ondblclick="openTextFile('file2')">
+        <img src="file.png" alt="File">file2.txt
+      </div>
     </div>
   </div>
 
@@ -148,32 +173,53 @@
       backend <button onclick="closePopup('backend')">X</button>
     </div>
     <div class="popup-body">
-      <div class="file-link" ondblclick="openTextFile('file2')"><img src="file.png"> file.txt</div>
+      <div class="file-link" ondblclick="openTextFile('file3')">
+        <img src="file.png" alt="File">file3.txt
+      </div>
+      <div class="file-link" ondblclick="openTextFile('file4')">
+        <img src="file.png" alt="File">file4.txt
+      </div>
     </div>
   </div>
 
   <!-- Text File Popups -->
   <div class="popup" id="file1">
     <div class="popup-header" onmousedown="startDrag(event, 'file1')">
-      file.txt <button onclick="closePopup('file1')">X</button>
+      file1.txt <button onclick="closePopup('file1')">X</button>
     </div>
     <div class="popup-body">content</div>
   </div>
 
   <div class="popup" id="file2">
     <div class="popup-header" onmousedown="startDrag(event, 'file2')">
-      file.txt <button onclick="closePopup('file2')">X</button>
+      file2.txt <button onclick="closePopup('file2')">X</button>
+    </div>
+    <div class="popup-body">content</div>
+  </div>
+
+  <div class="popup" id="file3">
+    <div class="popup-header" onmousedown="startDrag(event, 'file3')">
+      file3.txt <button onclick="closePopup('file3')">X</button>
+    </div>
+    <div class="popup-body">content</div>
+  </div>
+
+  <div class="popup" id="file4">
+    <div class="popup-header" onmousedown="startDrag(event, 'file4')">
+      file4.txt <button onclick="closePopup('file4')">X</button>
     </div>
     <div class="popup-body">content</div>
   </div>
 
   <!-- Taskbar -->
   <div class="taskbar">
-    <div class="start-button"><img src="start-icon.png" alt="Start" style="height: 16px; margin-right: 5px;">Start</div>
+    <div class="start-button">
+      <img src="start-icon.png" alt="Start" style="height: 16px; margin-right: 5px;">Start
+    </div>
     <div class="taskbar-icons">
-      <img src="sound.png" alt="Sound">
-      <img src="network.png" alt="Network">
-      <img src="battery.png" alt="Battery">
+      <img src="explorer.png" alt="Sound">
+      <img src="files.png" alt="Network">
+      <img src="music.png" alt="Battery">
     </div>
     <div class="clock">06:09</div>
   </div>
@@ -189,7 +235,11 @@
       document.getElementById(id).style.display = 'none';
     }
 
-    // Drag for popups
+    function openTextFile(id) {
+      openPopup(id);
+    }
+
+    // Dragging logic
     let activePopup = null;
     let offsetX = 0;
     let offsetY = 0;
@@ -214,7 +264,7 @@
       activePopup = null;
     }
 
-    // Desktop icon drag
+    // Better dragging for desktop icons
     document.querySelectorAll('.desktop-icon').forEach(icon => {
       let offsetX, offsetY;
       icon.addEventListener('pointerdown', e => {
@@ -236,4 +286,5 @@
 
 </body>
 </html>
+
 
