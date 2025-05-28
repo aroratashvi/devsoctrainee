@@ -25,6 +25,7 @@
 
     .desktop-icon img {
       width: 48px;
+      align-items: centre;
       height: 48px;
     }
 
@@ -32,7 +33,7 @@
       position: absolute;
       top: 100px;
       left: 100px;
-      width: 340px;
+      width: 320px;
       background: white;
       border: 2px solid #888;
       display: none;
@@ -66,7 +67,6 @@
       align-items: center;
       cursor: pointer;
       width: 60px;
-      text-align: center;
     }
 
     .file-link img {
@@ -99,6 +99,7 @@
       align-items: center;
       color: white;
       font-weight: bold;
+      font-family: Tahoma, sans-serif;
       font-size: 13px;
     }
 
@@ -115,12 +116,28 @@
 
     .clock {
       margin-left: auto;
-      margin-right: 20px;
+      padding-right: 10px;
+      margin-right: 10px;
+    }
+
+    .taskbar:hover::after {
+      content: 'update to windows 11 to make this work ://';
+      position: absolute;
+      bottom: 35px;
+      left: 10px;
+      background: #444;
+      color: #fff;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      z-index: 999;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
 
+  <!-- Desktop Icons -->
   <div class="desktop-icon" style="top: 100px; left: 100px;" ondblclick="openPopup('frontend')">
     <img src="folder.png" alt="Frontend">
     <div>frontend</div>
@@ -131,33 +148,45 @@
     <div>backend</div>
   </div>
 
+  <div class="desktop-icon" style="top: 300px; left: 100px;" ondblclick="openPopup('terminal')">
+    <img src="terminal.png" alt="Terminal">
+    <div>terminal</div>
+  </div>
+
   <!-- Terminal -->
-  <div class="popup" id="terminal" style="top: 120px; left: 300px; display: block;">
+  <div class="popup" id="terminal" style="top: 120px; left: 300px; width: 500px; display: block;">
     <div class="popup-header" onmousedown="startDrag(event, 'terminal')">
       terminal <button onclick="closePopup('terminal')">X</button>
     </div>
-    <div class="popup-body" style="font-family: monospace; white-space: pre-wrap;">
-      $ welcome to the terminal  
-      > frontend and backend are opposites but together AWESOME PROJECT,  
-      > HEY THAT'S ME AS A PERSON TOO.  
-    
-      > You can double click on the frontend folder to find the creative, adventurous side of me,  
-      > and double click on the backend folder to find the logical, code side of me.  
-    
-      > Note: I'm super cool so I made all folders and popups draggable ;)
+    <div class="popup-body" style="font-family: monospace; white-space: pre; font-size: 13px;">
+      <pre>
+$ welcome to the terminal
+
+  > frontend and backend are opposites but together make 
+  > an AWESOME PROJECT, HEY THAT'S ME AS A PERSON TOO.
+
+  > You can double click on the frontend folder to 
+    find the creative, adventurous side of me,
+
+  > and double click on the backend folder to find the
+    logical, code side of me.
+
+  > Note: I'm super cool so I made all folders 
+    and popups draggable ;)
+      </pre>
     </div>
   </div>
 
-  <!-- Popups for folders -->
+  <!-- Folder Popups -->
   <div class="popup" id="frontend">
     <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
       frontend <button onclick="closePopup('frontend')">X</button>
     </div>
     <div class="popup-body">
-      <div class="file-link" ondblclick="openTextFile('adventure.txt')">
+      <div class="file-link" ondblclick="openTextFile('adventure')">
         <img src="file.png" alt="File">adventure.txt
       </div>
-      <div class="file-link" ondblclick="openTextFile('proof.txt')">
+      <div class="file-link" ondblclick="openTextFile('proof')">
         <img src="file.png" alt="File">proof.txt
       </div>
     </div>
@@ -168,16 +197,52 @@
       backend <button onclick="closePopup('backend')">X</button>
     </div>
     <div class="popup-body">
-      <div class="file-link" ondblclick="openTextFile('introduction.txt')">
+      <div class="file-link" ondblclick="openTextFile('introduction')">
         <img src="file.png" alt="File">introduction.txt
       </div>
-      <div class="file-link" ondblclick="openTextFile('degree.txt')">
+      <div class="file-link" ondblclick="openTextFile('degree')">
         <img src="file.png" alt="File">degree.txt
       </div>
-      <div class="file-link" ondblclick="openTextFile('experience.txt')">
+      <div class="file-link" ondblclick="openTextFile('experience')">
         <img src="file.png" alt="File">experience.txt
       </div>
     </div>
+  </div>
+
+  <!-- Text File Popups -->
+  <div class="popup" id="adventure">
+    <div class="popup-header" onmousedown="startDrag(event, 'adventure')">
+      adventure.txt <button onclick="closePopup('adventure')">X</button>
+    </div>
+    <div class="popup-body">your adventure content here</div>
+  </div>
+
+  <div class="popup" id="proof">
+    <div class="popup-header" onmousedown="startDrag(event, 'proof')">
+      proof.txt <button onclick="closePopup('proof')">X</button>
+    </div>
+    <div class="popup-body">your images/videos here</div>
+  </div>
+
+  <div class="popup" id="introduction">
+    <div class="popup-header" onmousedown="startDrag(event, 'introduction')">
+      introduction.txt <button onclick="closePopup('introduction')">X</button>
+    </div>
+    <div class="popup-body">your introduction here</div>
+  </div>
+
+  <div class="popup" id="degree">
+    <div class="popup-header" onmousedown="startDrag(event, 'degree')">
+      degree.txt <button onclick="closePopup('degree')">X</button>
+    </div>
+    <div class="popup-body">your degree info here</div>
+  </div>
+
+  <div class="popup" id="experience">
+    <div class="popup-header" onmousedown="startDrag(event, 'experience')">
+      experience.txt <button onclick="closePopup('experience')">X</button>
+    </div>
+    <div class="popup-body">your experience here</div>
   </div>
 
   <!-- Taskbar -->
@@ -194,97 +259,6 @@
   </div>
 
   <script>
-    const fileStructure = {
-      frontend: {
-        "adventure.txt": {
-          type: "text",
-          content: "This is the adventurous, creative side of me! \uD83C\uDFA8\u2728\n\nI love building UI, visual storytelling, and exploring ideas fearlessly."
-        },
-        "proof.txt": {
-          type: "media",
-          content: [
-            { type: "image", src: "proof1.jpg" },
-            { type: "video", src: "proof1.mp4" }
-          ]
-        }
-      },
-      backend: {
-        "introduction.txt": {
-          type: "text",
-          content: "Hey, I'm Tashvi \uD83D\uDC4B\n\nI'm passionate about logical thinking, structured systems, and building things that work beautifully."
-        },
-        "degree.txt": {
-          type: "text",
-          content: "B.Tech in Computer Science\nGraduated from ABC University in 2023\nCGPA: 9.1"
-        },
-        "experience.txt": {
-          type: "text",
-          content: "Experience:\n- Intern at DevSoc\n- Freelance developer for 5+ projects\n- Contributor to open-source"
-        }
-      }
-    };
-
-    function findFileContent(fileName) {
-      for (const folder in fileStructure) {
-        if (fileStructure[folder][fileName]) {
-          return fileStructure[folder][fileName];
-        }
-      }
-      return null;
-    }
-
-    function openTextFile(id) {
-      const popup = document.getElementById(id);
-      if (popup) {
-        popup.style.display = 'block';
-        popup.style.zIndex = Date.now();
-        return;
-      }
-
-      const content = findFileContent(id);
-      if (!content) return;
-
-      const newPopup = document.createElement('div');
-      newPopup.className = 'popup';
-      newPopup.id = id;
-      newPopup.style.top = '150px';
-      newPopup.style.left = '300px';
-
-      const header = document.createElement('div');
-      header.className = 'popup-header';
-      header.innerHTML = `${id} <button onclick="closePopup('${id}')">X</button>`;
-      header.setAttribute('onmousedown', `startDrag(event, '${id}')`);
-
-      const body = document.createElement('div');
-      body.className = 'popup-body';
-      body.style.fontFamily = 'monospace';
-      body.style.whiteSpace = 'pre-wrap';
-
-      if (content.type === "text") {
-        body.textContent = content.content;
-      } else if (content.type === "media") {
-        content.content.forEach(item => {
-          if (item.type === "image") {
-            const img = document.createElement('img');
-            img.src = item.src;
-            img.style.maxWidth = '100%';
-            img.style.marginBottom = '10px';
-            body.appendChild(img);
-          } else if (item.type === "video") {
-            const vid = document.createElement('video');
-            vid.src = item.src;
-            vid.controls = true;
-            vid.style.maxWidth = '100%';
-            body.appendChild(vid);
-          }
-        });
-      }
-
-      newPopup.appendChild(header);
-      newPopup.appendChild(body);
-      document.body.appendChild(newPopup);
-    }
-
     function openPopup(id) {
       const popup = document.getElementById(id);
       popup.style.display = 'block';
@@ -295,21 +269,58 @@
       document.getElementById(id).style.display = 'none';
     }
 
-    function startDrag(e, id) {
-      let popup = document.getElementById(id);
-      let offsetX = e.clientX - popup.offsetLeft;
-      let offsetY = e.clientY - popup.offsetTop;
-
-      document.onmousemove = function (e) {
-        popup.style.left = (e.clientX - offsetX) + 'px';
-        popup.style.top = (e.clientY - offsetY) + 'px';
-      };
-
-      document.onmouseup = function () {
-        document.onmousemove = null;
-        document.onmouseup = null;
-      };
+    function openTextFile(id) {
+      openPopup(id);
     }
+
+    let activePopup = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    function startDrag(e, id) {
+      activePopup = document.getElementById(id);
+      offsetX = e.clientX - activePopup.offsetLeft;
+      offsetY = e.clientY - activePopup.offsetTop;
+      document.onmousemove = dragMove;
+      document.onmouseup = dragEnd;
+    }
+
+    function dragMove(e) {
+      if (!activePopup) return;
+      activePopup.style.left = (e.clientX - offsetX) + 'px';
+      activePopup.style.top = (e.clientY - offsetY) + 'px';
+    }
+
+    function dragEnd() {
+      document.onmousemove = null;
+      document.onmouseup = null;
+      activePopup = null;
+    }
+
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+      let offsetX, offsetY;
+
+      icon.addEventListener('pointerdown', e => {
+        icon.setPointerCapture(e.pointerId);
+        offsetX = e.clientX - icon.offsetLeft;
+        offsetY = e.clientY - icon.offsetTop;
+
+        const moveAt = e => {
+          icon.style.left = `${e.clientX - offsetX}px`;
+          icon.style.top = `${e.clientY - offsetY}px`;
+        };
+
+        const stopMove = () => {
+          icon.releasePointerCapture(e.pointerId);
+          document.removeEventListener('pointermove', moveAt);
+          document.removeEventListener('pointerup', stopMove);
+        };
+
+        document.addEventListener('pointermove', moveAt);
+        document.addEventListener('pointerup', stopMove);
+      });
+    });
   </script>
+
 </body>
 </html>
