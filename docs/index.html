@@ -223,17 +223,23 @@ $ welcome to the terminal
       <p>## i used to paint pots, vases, canvases when i was a kid but lost touch</p>
     </div>
   </div>
-
-  <div class="popup-body">
-    <video controls style="max-width: 100%; margin-bottom: 10px;">
-      <source src="skydiving.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
   
-    <img src="proof1.jpg" alt="Proof 1" style="max-width: 100%; margin-bottom: 10px;">
-    <img src="proof2.jpg" alt="Proof 2" style="max-width: 100%;">
+  <!-- Text file popup: proof.txt -->
+  <div class="popup" id="proof">
+    <div class="popup-header" onmousedown="startDrag(event, 'proof')">
+      proof.txt <button onclick="closePopup('proof')">X</button>
+    </div>
+    <div class="popup-body">
+      <video controls style="max-width: 100%; margin-bottom: 10px;">
+        <source src="skydiving.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+  
+      <img src="proof1.jpg" alt="Proof 1" style="max-width: 100%; margin-bottom: 10px;">
+      <img src="proof2.jpg" alt="Proof 2" style="max-width: 100%;">
+    </div>
   </div>
-
+  
   <div class="popup" id="introduction">
     <div class="popup-header" onmousedown="startDrag(event, 'introduction')">
       introduction.txt <button onclick="closePopup('introduction')">X</button>
