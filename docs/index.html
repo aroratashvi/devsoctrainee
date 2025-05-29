@@ -121,7 +121,7 @@
     }
 
     .taskbar:hover::after {
-      content: 'update to windows 11 to make this work ://';
+      content: 'update to the latest version to make this work ://';
       position: absolute;
       bottom: 35px;
       left: 10px;
@@ -163,7 +163,7 @@
 $ welcome to the terminal
 
   > frontend and backend are opposites but together make 
-  > an AWESOME PROJECT, HEY THAT'S ME AS A PERSON TOO.
+    an AWESOME PROJECT, HEY THAT'S ME AS A PERSON TOO.
 
   > You can double click on the frontend folder to 
     find the creative, adventurous side of me,
@@ -214,14 +214,24 @@ $ welcome to the terminal
     <div class="popup-header" onmousedown="startDrag(event, 'adventure')">
       adventure.txt <button onclick="closePopup('adventure')">X</button>
     </div>
-    <div class="popup-body">your adventure content here</div>
+    <div class="popup-body">
+      <p>skydive count: 2</p>
+      <p>bungee jump count: 1</p>
+      <p>scuba dive count: 1</p>
+      <p>surfing lessons(last 6 months): 3 (ik I really need to catch up)</p>
+      <p>i also LOVE painting by number (ik its not real painting ://)</p>
+      <p>## i used to paint pots, vases, canvases when i was a kid but lost touch</p>
+    </div>
   </div>
 
-  <div class="popup" id="proof">
-    <div class="popup-header" onmousedown="startDrag(event, 'proof')">
-      proof.txt <button onclick="closePopup('proof')">X</button>
-    </div>
-    <div class="popup-body">your images/videos here</div>
+  <div class="popup-body">
+    <video controls style="max-width: 100%; margin-bottom: 10px;">
+      <source src="skydiving.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  
+    <img src="proof1.jpg" alt="Proof 1" style="max-width: 100%; margin-bottom: 10px;">
+    <img src="proof2.jpg" alt="Proof 2" style="max-width: 100%;">
   </div>
 
   <div class="popup" id="introduction">
