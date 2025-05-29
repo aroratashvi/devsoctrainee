@@ -61,6 +61,20 @@
       gap: 10px;
     }
 
+    .popup-body p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+    
+    .popup-body ul {
+      margin: 6px 0 12px 20px;
+      padding: 0;
+    }
+    
+    .popup-body li {
+      margin-bottom: 4px;
+    }
+    
     .file-link {
       display: flex;
       flex-direction: column;
@@ -271,25 +285,43 @@ $ welcome to the terminal
     </div>
   </div>
   
+  <!-- introduction.txt -->
   <div class="popup" id="introduction">
     <div class="popup-header" onmousedown="startDrag(event, 'introduction')">
       introduction.txt <button onclick="closePopup('introduction')">X</button>
     </div>
-    <div class="popup-body">your introduction here</div>
+    <div class="popup-body">
+      <p>Hi, my name is Tashvi Arora.</p>
+      <p>I moved to Sydney from Dubai where I lived for the past 5 years. I grew up in Delhi.</p>
+      <p>I'm currently broke from how much I've been eating out because I'm a huge foodie.</p>
+    </div>
   </div>
-
+  
+  <!-- degree.txt -->
   <div class="popup" id="degree">
     <div class="popup-header" onmousedown="startDrag(event, 'degree')">
       degree.txt <button onclick="closePopup('degree')">X</button>
     </div>
-    <div class="popup-body">your degree info here</div>
+    <div class="popup-body">
+      <p>I'm in my last term of first year. I am a Software Engineering student, and tbh I have no idea how first year went by so fast.</p>
+    </div>
   </div>
-
+  
+  <!-- experience.txt -->
   <div class="popup" id="experience">
     <div class="popup-header" onmousedown="startDrag(event, 'experience')">
       experience.txt <button onclick="closePopup('experience')">X</button>
     </div>
-    <div class="popup-body">your experience here</div>
+    <div class="popup-body">
+      <p>Courses I've done:</p>
+      <ul>
+        <li>HD: COMP1511</li>
+        <li>DN: COMP1531 and COMP2521</li>
+        <li>Also MATH1131 and MATH1231 (but let's be honest, who cares about those)</li>
+      </ul>
+      <p>I have no personal projects so far, but doing 1531 last sem and making a couple of mistakes tbh really gave me a sense of group projects.</p>
+      <p>I believe I can learn a lot from being a DevSoc trainee.</p>
+    </div>
   </div>
 
   <!-- Taskbar -->
