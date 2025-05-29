@@ -202,6 +202,29 @@
     margin-bottom: 6px;
   }
 
+  .frontend-files {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 12px;
+    flex-wrap: wrap; /* optional if window can be small */
+  }
+  
+  .frontend-files .file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    max-width: 100px;
+  }
+  
+  .frontend-files .file img {
+    width: 48px; /* Resize icon */
+    height: auto;
+    margin-bottom: 6px;
+  }
+
   </style>
 </head>
 <body>
@@ -247,7 +270,7 @@ $ welcome to the terminal
   </div>
 
   <!-- Folder Popups -->
-  <div class="popup" id="backend">
+  <div class="popup" id="frontend">
     <div class="popup-header" onmousedown="startDrag(event, 'frontend')">
       frontend <button onclick="closePopup('frontend')">X</button>
     </div>
