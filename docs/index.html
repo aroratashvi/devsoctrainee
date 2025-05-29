@@ -178,6 +178,30 @@
     padding-top: 6px;
     border-top: 1px dashed #ccc;
   }
+
+  .backend-files {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 12px;
+    flex-wrap: wrap; /* optional if window can be small */
+  }
+  
+  .backend-files .file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    max-width: 100px;
+  }
+  
+  .backend-files .file img {
+    width: 48px; /* Resize icon */
+    height: auto;
+    margin-bottom: 6px;
+  }
+
   </style>
 </head>
 <body>
@@ -319,8 +343,9 @@ when I was a kid but lost touch :(
     <div class="popup-body">
       <pre>
 > I'm in my last term of first year. 
-> I am a software engineering student and tbh
-  I have no idea how first year went by so fast.
+> I am a software engineering student 
+  and tbh I have no idea how first 
+  year went by so fast.
       </pre>
     </div>
   </div>
@@ -336,7 +361,8 @@ when I was a kid but lost touch :(
 > HD: COMP1511
 > DN: COMP1531 and COMP2521
 > Also MATH1131 and MATH1231 
-  (but lets be honest who cares about those)
+  (but lets be honest who cares about 
+  those anyway)
   
 > I have no personal projects so far but 
   doing 1531 last sem really gave me a 
